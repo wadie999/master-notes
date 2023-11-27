@@ -9,15 +9,6 @@ Coq is an interactive theorem prover and proof assistant, used for writing forma
 ## Project Structure
 The repository is organized into separate folders for each lab work module, encompassing various topics in language theory and verification.
 
-### Folders:
-- `Lab1/`: Introduction to basic concepts in language theory.
-- `Lab2/`: Exploring automata and their applications in language recognition.
-- `Lab3/`: Advanced topics in language theory and formal verification.
-- `...`: Additional lab modules and exercises.
-
-Each folder contains:
-- Coq source files (`.v` files) with exercises and solutions.
-- Supplementary materials and notes.
 
 ## Getting Started
 To work with these exercises, you will need to have Coq installed on your system. You can download and install Coq from [Coq's official website](https://coq.inria.fr/).
