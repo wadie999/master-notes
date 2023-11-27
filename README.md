@@ -1,4 +1,4 @@
-# University Lab Works Repository
+# M1-IAFA Paul Sabatier Lab Works Repository
 
 ## Introduction
 Welcome to my University Lab Works Repository! This is a centralized hub where I archive all the lab works and exercises I've undertaken during my university course. It includes a wide range of subjects, providing insights into various academic topics.
