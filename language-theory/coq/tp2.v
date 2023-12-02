@@ -40,14 +40,15 @@ Definition exp_example :=
    nonzero. We'll use a match to test the condition. *)
 Fixpoint eval (env : string -> nat) (e : exp) : nat :=
   match e with 
-  | Var (x) => env x
-  | Const (x) => x
-  | Add e1 e2 => eval env e1 + eval env e2
-  | Sub e1 e2 => eval env e1 - eval env e2
-  | IfThen c e1 e2 => match eval env c with
-                      | 0 => eval env e2
-                      | _ => eval env e1
-                      end
+  | Var v => env v
+  | Const c => c 
+  | Add e1 e2 => eval env e1 + eval env e2 
+  | Sub e1 e2 => eval env e1 - eval env e2 
+  | IfThen c e1 e2 =>
+    match eval env c with 
+     | 0 => eval env e2
+     | _ => eval env e1
+     end
   end.
 
 (* An environment mapping variables a and b to 1 and 2. *)
@@ -65,7 +66,8 @@ Lemma eval_example : eval env_example exp_example = 4.
 Proof.
   simpl.
   reflexivity.
-Admitted.
+Qed.
+  
 
 (* We'll compile our expressions into the following instruction set. *)
 Inductive asm : Type :=
@@ -103,10 +105,11 @@ Inductive asm : Type :=
      constructor embedding a test (via match ... end) on the value on
      top of the stack. *)
 Inductive smallStep : (list nat * asm) -> (list nat * asm) -> Prop :=
-  | ssPush : forall c stk l, smallStep (stk, push c l) (c :: stk, l)
-  | ssAdd : forall c1 c2 stk l, smallStep (c1::c2::stk, Add l) ((c1+c2) :: stk, l)
-  | ssSub : forall c1 c2 stk l, smallStep (c1::c2::stk, Add l) ((c1-c2) :: stk, l)
-  | ssI : 
+  | ssPush : forall c stk l , smallStep (stk ,push c l) (c :: stk,l)
+  | ssAdd : forall c1 c2 stk l, smallStep (c1 :: c2 :: stk, add l) ((c1 +c2) ::stk, l)
+  | ssSub : forall c1 c2 stk l, smallStep (c1 :: c2 :: stk, sub l) ((c1 -c2) ::stk, l)
+  | ssI : forall stk l1 l2, smallStep ( 0 :: stk, ifThen l1 l2) (stk, l2).
+
 
 (* A big step transforms the stack stk into stk' after executing the
    code l. It is a sequence of small steps until the machine halts. *)
@@ -118,7 +121,10 @@ Inductive smallStep : (list nat * asm) -> (list nat * asm) -> Prop :=
      l') and when the big step semantics of stk' and l' is stk'', then
      the big step semantics of stk and l is stk''. *)
 Inductive bigStep : list nat -> asm -> list nat -> Prop :=
-  (* TODO *).
+  | bsStop : forall stk,bigStep stk stop stk
+  | bsStep : forall stk l stk' l' stk'',
+      smallStep (stk,l) (stk' , l') -> bigStep stk' l' stk'' ->
+      bigStep stk l stk''.
 
 (* Sidenote: we can prove that the semantics of asm is deterministic
    (although we won't use that property below). *)
@@ -135,7 +141,6 @@ Lemma bigStep_determinist stk l stk' stk'' :
   bigStep stk l stk'' ->
   stk' = stk''.
 Proof.
-  admit. (* ← remove this line, and keep the proof ↓
   intro H; elim H.
   - intros stk0 H0; inversion_clear H0; auto.
     inversion_clear H1.
@@ -146,7 +151,6 @@ Proof.
       intros [H5 H6].
       apply IH.
       rewrite <-H5, <-H6; auto.
-*)
 Admitted.
 
 (* Let us now compile our expressions to our language asm. *)
@@ -155,7 +159,7 @@ Admitted.
    the environment env into an asm code. The execution of this code
    will proceed with cnt. *)
 Fixpoint compile_cnt (env : string -> nat) (e : exp) (cnt : asm) : asm :=
-  stop.  (* TODO *)
+  
 
 Definition compile env e := compile_cnt env e stop.
 
