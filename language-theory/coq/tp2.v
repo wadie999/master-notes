@@ -193,11 +193,12 @@ Lemma compile_cnt_correct : forall env e stk cnt stk',
   bigStep (eval env e :: stk) cnt stk' ->
   bigStep stk (compile_cnt env e cnt) stk'.
 Proof.
- induction e.
- intros stk cnt stk'.
- -apply bsStep.
-  apply ssPush.
- intros stk.
+ induction e; intros stk cnt stk'; simpl.
+  - apply bsStep.
+    apply ssPush.
+  -apply bsStep.
+    apply ssPush.
+  - intro bscnt.
 
 Admitted.
 Lemma compile_correct env e : bigStep [] (compile env e) [eval env e].
