@@ -151,15 +151,25 @@ Proof.
       intros [H5 H6].
       apply IH.
       rewrite <-H5, <-H6; auto.
-Admitted.
+Qed.
 
 (* Let us now compile our expressions to our language asm. *)
 
 (* Write the compile_cnt function that compiles the expression e in
    the environment env into an asm code. The execution of this code
    will proceed with cnt. *)
+
 Fixpoint compile_cnt (env : string -> nat) (e : exp) (cnt : asm) : asm :=
-  
+  match e with
+  | Var v => push (env v) cnt
+  | Const c => push c cnt
+  | Add e1 e2 => compile_cnt env e2 (compile_cnt env e1 (add cnt))
+  | Sub e1 e2 => compile_cnt env e2 (compile_cnt env e1 (sub cnt))
+  | IfThen c e1 e2 =>
+      compile_cnt
+        env c
+        (ifThen (compile_cnt env e1 cnt) (compile_cnt env e2 cnt))
+  end.
 
 Definition compile env e := compile_cnt env e stop.
 
@@ -171,8 +181,8 @@ Lemma compile_example :
        (push 2 (push 1 (add stop)))
        (push 3 (push 1 (add stop)))))))).
 Proof.
-  (* TODO *)
-Admitted.
+ reflexivity.
+Qed.
 
 (* Let's now prove that our compilation function is correct.
 
@@ -183,9 +193,13 @@ Lemma compile_cnt_correct : forall env e stk cnt stk',
   bigStep (eval env e :: stk) cnt stk' ->
   bigStep stk (compile_cnt env e cnt) stk'.
 Proof.
-  (* TODO *)
-Admitted.
+ induction e.
+ intros stk cnt stk'.
+ -apply bsStep.
+  apply ssPush.
+ intros stk.
 
+Admitted.
 Lemma compile_correct env e : bigStep [] (compile env e) [eval env e].
 Proof.
   (* TODO *)
