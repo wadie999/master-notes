@@ -1,8 +1,8 @@
-(***********************************************************)
-(*                                                         *)
-(* This labwork is for two slots/weeks (i.e., 2 * 2 hours) *)
-(*                                                         *)
-(***********************************************************)
+(************************************************************)
+(*                                                          *)
+(* This tutorial is for two slots/weeks (i.e., 2 * 2 hours) *)
+(*                                                          *)
+(************************************************************)
 
 Require Import Lia.
 Require Import Strings.String Nat Lists.List.
@@ -12,9 +12,9 @@ Local Open Scope string_scope.
 
 Module EXP.
 
-(* We define the language of expressions as an inductive type in Coq.
-   An expression is a variable, a constant, a sum, a subtraction or a
-   conditional expression. *)
+(* We define the inductive type of expressions. An expression is a
+   variable, a constant, a sum, a subtraction or a conditional
+   expression. *)
 Inductive exp : Type :=
   | Var (n : string)
   | Const (c : nat)
@@ -39,16 +39,16 @@ Definition exp_example :=
    assume, as in exp_example, that an expression is true when it is
    nonzero. We'll use a match to test the condition. *)
 Fixpoint eval (env : string -> nat) (e : exp) : nat :=
-  match e with 
+  match e with
   | Var v => env v
-  | Const c => c 
-  | Add e1 e2 => eval env e1 + eval env e2 
-  | Sub e1 e2 => eval env e1 - eval env e2 
-  | IfThen c e1 e2 =>
-    match eval env c with 
-     | 0 => eval env e2
-     | _ => eval env e1
-     end
+  | Const c => c
+  | Add e1 e2 => eval env e1 + eval env e2
+  | Sub e1 e2 => eval env e1 - eval env e2
+  | IfThen e1 e2 e3 =>
+      match eval env e1 with
+      | 0 => eval env e3
+      | _ => eval env e2
+      end
   end.
 
 (* An environment mapping variables a and b to 1 and 2. *)
@@ -64,12 +64,10 @@ Eval compute in eval env_example exp_example.
 (* Example of expression evaluation. *)
 Lemma eval_example : eval env_example exp_example = 4.
 Proof.
-  simpl.
   reflexivity.
 Qed.
-  
 
-(* We'll compile our expressions into the following instruction set. *)
+(* Let us now compile our expressions to our language asm. *)
 Inductive asm : Type :=
   | stop
     (* machine halts *)
@@ -96,20 +94,20 @@ Inductive asm : Type :=
    - rule ssAdd: when the instruction is a 'add l' and the stack
      contains at least two elements, we replace them by their sum and
      proceed with l
-   - rule ssAdd: when the instruction is a 'sub l' and the stack
+   - rule ssSub: when the instruction is a 'sub l' and the stack
      contains at least two elements, we replace them by their
      subtraction and proceed with l
-   - rule ssI: when the instruction is a 'ifThen l1 l2' and the top of
+   - rule ssI: whe the instruction is a 'ifThen l1 l2' and the top of
      the stack is >0, we pop it and proceed with l1, otherwise l2.  We
      can express this rule with two constructors or with a single
      constructor embedding a test (via match ... end) on the value on
      top of the stack. *)
 Inductive smallStep : (list nat * asm) -> (list nat * asm) -> Prop :=
-  | ssPush : forall c stk l , smallStep (stk ,push c l) (c :: stk,l)
-  | ssAdd : forall c1 c2 stk l, smallStep (c1 :: c2 :: stk, add l) ((c1 +c2) ::stk, l)
-  | ssSub : forall c1 c2 stk l, smallStep (c1 :: c2 :: stk, sub l) ((c1 -c2) ::stk, l)
-  | ssI : forall stk l1 l2, smallStep ( 0 :: stk, ifThen l1 l2) (stk, l2).
-
+  | ssPush : forall c stk l, smallStep (stk, push c l) (c :: stk, l)
+  | ssAdd : forall e1 e2 stk l, smallStep (e1 :: e2 :: stk, add l) ((e1 + e2) :: stk, l)
+  | ssSub : forall e1 e2 stk l, smallStep (e1 :: e2 :: stk, sub l) ((e1 - e2) :: stk, l)
+  | ssItt : forall c stk l1 l2, smallStep (S c :: stk, ifThen l1 l2) (stk, l1)
+  | ssIff : forall stk l1 l2, smallStep (0 :: stk, ifThen l1 l2) (stk, l2).
 
 (* A big step transforms the stack stk into stk' after executing the
    code l. It is a sequence of small steps until the machine halts. *)
@@ -121,9 +119,9 @@ Inductive smallStep : (list nat * asm) -> (list nat * asm) -> Prop :=
      l') and when the big step semantics of stk' and l' is stk'', then
      the big step semantics of stk and l is stk''. *)
 Inductive bigStep : list nat -> asm -> list nat -> Prop :=
-  | bsStop : forall stk,bigStep stk stop stk
+  | bsStop : forall stk, bigStep stk stop stk
   | bsStep : forall stk l stk' l' stk'',
-      smallStep (stk,l) (stk' , l') -> bigStep stk' l' stk'' ->
+      smallStep (stk, l) (stk', l') -> bigStep stk' l' stk'' ->
       bigStep stk l stk''.
 
 (* Sidenote: we can prove that the semantics of asm is deterministic
@@ -153,12 +151,11 @@ Proof.
       rewrite <-H5, <-H6; auto.
 Qed.
 
-(* Let us now compile our expressions to our language asm. *)
+(* Let's now compile our expressions toward our asm language. *)
 
 (* Write the compile_cnt function that compiles the expression e in
    the environment env into an asm code. The execution of this code
    will proceed with cnt. *)
-
 Fixpoint compile_cnt (env : string -> nat) (e : exp) (cnt : asm) : asm :=
   match e with
   | Var v => push (env v) cnt
@@ -181,7 +178,7 @@ Lemma compile_example :
        (push 2 (push 1 (add stop)))
        (push 3 (push 1 (add stop)))))))).
 Proof.
- reflexivity.
+  reflexivity.
 Qed.
 
 (* Let's now prove that our compilation function is correct.
@@ -193,24 +190,20 @@ Lemma compile_cnt_correct : forall env e stk cnt stk',
   bigStep (eval env e :: stk) cnt stk' ->
   bigStep stk (compile_cnt env e cnt) stk'.
 Proof.
- induction e; intros stk cnt stk'; simpl.
-  - apply bsStep.
-    apply ssPush.
-  -apply bsStep.
-    apply ssPush.
-  - intro bscnt.
+  
+Qed.
 
-Admitted.
 Lemma compile_correct env e : bigStep [] (compile env e) [eval env e].
 Proof.
-  (* TODO *)
-Admitted.
+  apply compile_cnt_correct.
+  apply bsStop.
+Qed.
 
 (* Let's now define an interpret for asm. *)
 
 Inductive Result :=
-  | Value (v : nat) (* the result is an integer *)
-  | StackError.   (* a stack error occured *)
+  | Value (v : nat)   (* the result is an integer *)
+  | StackError.  (* a stack error occured *)
 
 (* Define the asm_interp function for a program l starting from a
    stack stk. During the execution of the stop instruction, we'll
@@ -219,32 +212,76 @@ Inductive Result :=
    instance when we try to apply an 'add' instruction on the empty
    stack). *)
 Fixpoint asm_interp (stk : list nat) (l : asm) : Result :=
-  StackError.  (* TODO *)
+  match l with
+  | stop =>
+      match stk with
+      | [] => StackError
+      | v :: _ => Value v
+      end
+  | push c l' => asm_interp (c :: stk) l'
+  | add l' =>
+      match stk with
+      | e1 :: e2 :: stk' => asm_interp ((e1 + e2) :: stk') l'
+      | _ => StackError
+      end
+  | sub l' =>
+      match stk with
+      | e1 :: e2 :: stk' => asm_interp ((e1 - e2) :: stk') l'
+      | _ => StackError
+      end
+  | ifThen l1 l2 =>
+      match stk with
+      | 0 :: stk' => asm_interp stk' l2
+      | _ :: stk' => asm_interp stk' l1
+      | _ => StackError
+      end
+  end.
 
-(* Example: running a compiled expression. *)
+(* Example of expression compilation. *)
 Lemma asm_interp_example :
   asm_interp [] (compile env_example exp_example) = Value 4.
 Proof.
-  (* TODO *)
-Admitted.
+  reflexivity.
+Qed.
 
 (* Let's now prove that our interpret is correct.
 
    We can use the 'discriminate' tactic to prove the goals with an
    inconsistent hypothesis, like 'StackError = Value _' for instance.
-   The 'injection H' tactic enables to deduce 'v1 = v2' from an
-   hypothesis (H : Value v1 = Value v2). *)
+   The 'injection H' tactic enables to deduce v = v' from an
+   hypothesis Value v = Value v'. *)
 Lemma asm_interp_correct stk l v : asm_interp stk l = Value v ->
   exists stk', bigStep stk l (v :: stk').
 Proof.
-  (* TODO *)
-Admitted.
+  revert stk; elim l; clear l; simpl.
+  - intros [|v' stk']; [discriminate|].
+    intro H; injection H; clear H; intros ->.
+    exists stk'; apply bsStop.
+  - intros c l IHl stk H0.
+    destruct (IHl _ H0) as [stk' IHl'].
+    exists stk'.
+    revert IHl'; apply bsStep; apply ssPush.
+  - intros l IHl [|e1 [|e2 stk]] H0; [discriminate..|].
+    destruct (IHl _ H0) as [stk' IHl'].
+    exists stk'.
+    revert IHl'; apply bsStep; apply ssAdd.
+  - intros l IHl [|e1 [|e2 stk]] H0; [discriminate..|].
+    destruct (IHl _ H0) as [stk' IHl'].
+    exists stk'.
+    revert IHl'; apply bsStep; apply ssSub.
+  - intros l1 IHl1 l2 IHl2 [|[|c] stk] H0; [discriminate| |].
+    + destruct (IHl2 _ H0) as [stk' IHl2'].
+      exists stk'.
+      revert IHl2'; apply bsStep; apply ssIff.
+    + destruct (IHl1 _ H0) as [stk' IHl1'].
+      exists stk'.
+      revert IHl1'; apply bsStep; apply ssItt.
+Qed.
 
 (* Sidenote: we can also prove the converse. *)
 Lemma asm_interp_complete stk l v stk' : bigStep stk l (v :: stk') ->
   asm_interp stk l = Value v.
 Proof.
-  admit. (* ← remove this line, and keep the proof ↓
   revert stk v stk'; elim l; clear l; simpl.
   - intros stk v stk'.
     intro H; inversion_clear H; auto.
@@ -267,8 +304,7 @@ Proof.
       intro H; inversion_clear H; intros IHl1 IHl2.
     + revert H1; apply IHl2.
     + revert H1; apply IHl1.
-*)
-Admitted.
+Qed.
 
 (* ...which enables to prove the following theorem: *)
 Lemma asm_interp_compile_correct env e :
