@@ -1,6 +1,9 @@
 
 # Deep Learning Audio Classification Project
 
+## Research Article
+The findings and methodologies of this project are detailed in an accompanying research article. It provides a comprehensive analysis of the results obtained using the developed architectures and the implications for further research in audio classification [Deep Learning for Audio Classification](https://github.com/wadie999/master-notes/blob/main/audio-classification/docs/audio%20class%20paper.pdf)
+
 ## Overview
 This project explores the application of deep learning techniques to classify audio files using the ESC-10 dataset. It involves developing neural network architectures from scratch using Pytorch, proving a fundamental understanding of deep learning principles and practices.
 
@@ -50,7 +53,3 @@ class ComplexCNN(nn.Module):
 
 This code illustrates the detailed layer configuration and forward propagation method, providing insights into the construction and optimization of CNNs for handling audio data.
 
-## Research Article
-The findings and methodologies of this project are detailed in an accompanying research article. It provides a comprehensive analysis of the results obtained using the developed architectures and the implications for further research in audio classification.
-
-For more detailed information, refer to the full article linked here: [Deep Learning for Audio Classification](https://github.com/wadie999/master-notes/blob/main/audio-classification/docs/audio%20class%20paper.pdf)
