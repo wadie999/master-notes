@@ -2,7 +2,7 @@
 # Deep Learning Audio Classification Project
 
 ## Overview
-This project explores the application of deep learning techniques to classify audio files using the ESC-10 dataset. It involves developing neural network architectures from scratch, proving a fundamental understanding of deep learning principles and practices.
+This project explores the application of deep learning techniques to classify audio files using the ESC-10 dataset. It involves developing neural network architectures from scratch using Pytorch, proving a fundamental understanding of deep learning principles and practices.
 
 ## Dataset
 The project utilizes the [ESC-10 dataset](https://github.com/karolpiczak/ESC-10), which is a subset of the Environmental Sound Classification dataset (ESC-50). It includes labeled audio files across 10 classes, specifically designed for environmental sound classification tasks.
@@ -53,7 +53,4 @@ This code illustrates the detailed layer configuration and forward propagation m
 ## Research Article
 The findings and methodologies of this project are detailed in an accompanying research article. It provides a comprehensive analysis of the results obtained using the developed architectures and the implications for further research in audio classification.
 
-For more detailed information, refer to the full article linked here: [Deep Learning for Audio Classification](#)
-
----
-This README aims to provide an overview of the project and direct access to the resources and knowledge required to understand and replicate the results. It serves as a gateway for further exploration and development in the field of machine learning and audio processing.
+For more detailed information, refer to the full article linked here: [Deep Learning for Audio Classification](https://github.com/wadie999/master-notes/blob/main/audio-classification/docs/audio%20class%20paper.pdf)
