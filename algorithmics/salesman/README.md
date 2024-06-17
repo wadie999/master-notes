@@ -1,4 +1,4 @@
-#Projet TSP Solver
+# Projet TSP Solver
 
 Ce projet propose deux approches pour résoudre le problème du voyageur de commerce (TSP) : une métaheuristique en Python et l'utilisation de SCIP avec le langage ZIMPL.
 
@@ -6,7 +6,7 @@ Ce projet propose deux approches pour résoudre le problème du voyageur de comm
 
 ### Fichiers Importants
 Le projet contient 3 fichiers importants :
-####1. `salesman.py` (Classes City et TSPSolver)
+## 1. `salesman.py` (Classes City et TSPSolver)
  Pour compiler et exécuter ce fichier, assurez-vous d'avoir les 4 fichiers texte (`tsp-xx.txt`) dans le même répertoire.
 
 
@@ -30,13 +30,14 @@ La classe `TSPSolver` est le cœur du solveur TSP. Elle prend en charge la réso
 3. L'interface du terminal vous demandera de choisir le fichier de test à utiliser, le type de voisinage, et si vous souhaitez utiliser une liste tabou, vous devrez également saisir sa taille.
 4. La métaheuristique se lancera et fournira une première solution.
 5. Le programme vous demandera ensuite si vous souhaitez exécuter une recherche de montée de colline avec redémarrage.
-####2. `salesman-animated.py` (Animation du Solveur)
+## 2. `salesman-animated.py` (Animation du Solveur)
 
 Le fichier `salesman-animated.py` est une extension du projet qui ajoute une fonctionnalité d'animation pour visualiser le processus de résolution du problème du voyageur de commerce (TSP). Pour exécuter ce fichier, utilisez la commande suivante :
 #### Exécution
 1. `python salesman-animated.py <nom-fichier>`
 
-####3. `salesman-discussion.ipynb` (Notebook)
+![Animation du Solveur TSP](animation.gif)
+## 3. `salesman-discussion.ipynb` (Notebook)
 
 Ce notebook regroupe différents tests et comparaisons des méthodes heuristiques en utilisant les différentes approches de voisinage disponibles.
 
