@@ -156,7 +156,7 @@ class MH:
         line, = ax.plot([], [], linestyle='-', color='blue', marker='o')
         main_cities_scatter = ax.scatter(x, y, color='blue', s=50)  # Main cities in blue
         swapped_cities_scatter = ax.scatter([], [], color='red', s=100)  # Swapped cities in red
-        distance_text = ax.text(0.5, 0.98, '', transform=ax.transAxes, ha='center', fontsize=12, va='top')
+        distance_text = ax.text(0.5, 1.00, '', transform=ax.transAxes, ha='center', fontsize=10, va='top')
 
         def init():
             ax.set_xlabel('X Coordinate')
