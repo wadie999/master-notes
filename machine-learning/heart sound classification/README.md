@@ -3,7 +3,7 @@
 
 This project is developed at Université Toulouse III - Paul Sabatier under the guidance of Professor SANDRINE MOUYSSET. It aims to integrate machine learning techniques in the analysis of heart sounds, classifying them into three categories: normal, murmurs, and artifacts.
 
-[Notebook](https://github.com/wadie999/master-notes/blob/main/machine-learning/heart%20sound%20classification/Projet_battements_cardiaques1(2).ipynb) + [Report](https://github.com/wadie999/master-notes/blob/main/machine-learning/heart%20sound%20classification/relatoriolab.pdf)
+[Notebook](https://github.com/wadie999/master-notes/blob/main/machine-learning/heart%20sound%20classification/Projet_battements_cardiaques1(2).ipynb) + [Report](https://github.com/wadie999/master-notes/blob/main/machine-learning/heart%20sound%20classification/report-heart.pdf)
 
 
 

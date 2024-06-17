@@ -4,7 +4,7 @@
 This project, developed at Université Toulouse III - Paul Sabatier under the guidance of Professor Sandrine Mouysset, focuses on detecting and recognizing various beatbox sounds from audio recordings. Utilizing supervised and unsupervised learning methods, this project aims to accurately classify 12 distinct beatbox sounds.
 
 
-[Notebook](https://github.com/wadie999/master-notes/blob/main/machine-learning/heart%20sound%20classification/Projet_battements_cardiaques1(2).ipynb) + [Report](https://github.com/wadie999/master-notes/blob/main/machine-learning/heart%20sound%20classification/report-heart.pdf)
+[Notebook](https://github.com/wadie999/master-notes/blob/main/machine-learning/beatbox-sound-classification/ProjetBeatbox(1).ipynb) + [Report](https://github.com/wadie999/master-notes/blob/main/machine-learning/beatbox-sound-classification/projet_beatbox-5.pdf)
 
 ## Project Overview
 
