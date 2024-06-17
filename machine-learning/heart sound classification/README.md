@@ -1,11 +1,17 @@
 
 # Projet Battements Cardiaques
 
-This project is developed by students at Université Toulouse III - Paul Sabatier under the guidance of Professor SANDRINE MOUYSSET. It aims to integrate machine learning techniques in the analysis of heart sounds, classifying them into three categories: normal, murmurs, and artifacts.
+This project is developed at Université Toulouse III - Paul Sabatier under the guidance of Professor SANDRINE MOUYSSET. It aims to integrate machine learning techniques in the analysis of heart sounds, classifying them into three categories: normal, murmurs, and artifacts.
+
+[Notebook](https://github.com/wadie999/master-notes/blob/main/machine-learning/heart%20sound%20classification/Projet_battements_cardiaques1(2).ipynb) + [Report](https://github.com/wadie999/master-notes/blob/main/machine-learning/heart%20sound%20classification/relatoriolab.pdf)
+
+
 
 ## Overview
 
-The project utilizes both supervised and unsupervised machine learning methods to classify distinct types of heartbeats from audio recordings transformed into Mel Frequency Cepstral Coefficients (MFCC). The goal is to develop a robust system for medical diagnosis and patient monitoring by accurately classifying various cardiac anomalies.
+The project utilizes both supervised and unsupervised machine learning methods to classify distinct types of heartbeats from audio recordings transformed into Mel Frequency Cepstral Coefficients (MFCC). The goal is to develop a robust system for medical diagnosis and patient monitoring by accurately classifying various cardiac anomalies. 
+
+
 
 ## Data Description
 
@@ -46,10 +52,6 @@ The models demonstrate varying degrees of success, with detailed results includi
   - Trained model files.
 - **notebooks/**
   - Jupyter notebooks containing exploratory data analysis and model training.
-
-## Usage
-
-To replicate or extend our analyses, please follow the instructions in the Jupyter notebooks within the `notebooks/` directory. These notebooks contain detailed code, from data preprocessing to model evaluation.
 
 ## Dependencies
 
